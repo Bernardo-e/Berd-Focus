@@ -102,7 +102,7 @@ export default function Footer({ onScrollToSection }: FooterProps) {
         {/* Footer bottom details */}
         <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="font-sans text-xs text-[#b9caca]/40">
-            © 2026 Berd Focus. Crafted with absolute premium craftsmanship. All Rights Reserved.
+            © 2026 Berd Focus. Made by Berd. All Rights Reserved.
           </p>
           
           <div className="flex items-center gap-2">

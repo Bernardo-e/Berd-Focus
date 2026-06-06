@@ -5,11 +5,10 @@ import FocusStorytelling from './components/FocusStorytelling';
 import TimerShowcase from './components/TimerShowcase';
 import PerformanceStats from './components/PerformanceStats';
 import DeepFocusShowcase from './components/DeepFocusShowcase';
-import AIFocusPlanner from './components/AIFocusPlanner';
 import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 import { playTactileSound } from './utils';
-import { Play, Pause, RotateCcw, Volume2, VolumeX, Sparkles } from 'lucide-react';
+import { Play, Pause, RotateCcw, Volume2, VolumeX, Sparkles, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { TimerProvider, useTimer } from './components/TimerContext';
 
@@ -168,8 +167,7 @@ function AppContent() {
               onEnterImmersive={handleEnterImmersive}
             />
 
-            {/* AI Focus Planner Section */}
-            <AIFocusPlanner />
+
 
             {/* Section 2: Why Focus Storytelling */}
             <FocusStorytelling />
@@ -220,10 +218,21 @@ function AppContent() {
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:40px_40px]" />
             </div>
 
+            {/* Top-Right Floating Exit Button */}
+            <button
+              onClick={handleExitImmersive}
+              className={`fixed top-6 right-6 sm:top-8 sm:right-8 z-50 p-3 rounded-full border border-white/10 hover:border-white/30 bg-white/5 text-[#b9caca]/60 hover:text-white transition-all duration-750 cursor-pointer flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 ${
+                showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+              title="Exit Void Mode (ESC)"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
             {/* Immersive Contents */}
             <div className="relative z-10 flex flex-col items-center max-w-lg w-full">
               
-              <div className={`inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/5 rounded-full mb-10 backdrop-blur-md transition-all duration-750 ${
+              <div className={`inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/5 rounded-full mb-6 sm:mb-8 backdrop-blur-md transition-all duration-750 ${
                 showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}>
                 <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
@@ -238,7 +247,7 @@ function AppContent() {
                 const immersiveCircumference = 2 * Math.PI * immersiveRadius;
                 const immersiveStrokeDashoffset = immersiveCircumference - progressPercent * immersiveCircumference;
                 return (
-                  <div className="relative w-84 h-84 sm:w-[420px] sm:h-[420px] md:w-[460px] md:h-[460px] rounded-full flex items-center justify-center mb-10 transition-transform duration-500">
+                  <div className="relative w-80 h-80 sm:w-[390px] sm:h-[390px] md:w-[430px] md:h-[430px] rounded-full flex items-center justify-center mb-6 sm:mb-8 transition-transform duration-500">
                     <svg className="w-full h-full transform -rotate-90 absolute inset-0" viewBox="0 0 320 320">
                       {/* Outer track */}
                       <circle
@@ -271,7 +280,7 @@ function AppContent() {
                     </svg>
 
                     <div className="text-center z-10 px-6">
-                      <h2 className="font-display font-light text-6xl sm:text-7.5xl md:text-8.5xl text-white tracking-widest leading-none timer-glow select-none tabular-nums">
+                      <h2 className="font-display font-light text-6xl sm:text-7xl md:text-8xl text-white tracking-widest leading-none timer-glow select-none tabular-nums">
                         {formatTime(secondsLeft)}
                       </h2>
                       <p className={`font-display text-[9px] tracking-[0.3em] uppercase mt-5 transition-all duration-750 ${
@@ -291,14 +300,14 @@ function AppContent() {
                 );
               })()}
 
-              <p className={`font-sans text-xs sm:text-sm text-[#b9caca]/55 max-w-sm mb-10 font-light leading-relaxed transition-all duration-750 ${
+              <p className={`font-sans text-xs sm:text-sm text-[#b9caca]/55 max-w-sm mb-6 sm:mb-8 font-light leading-relaxed transition-all duration-750 ${
                 showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}>
                 Quiet your thoughts. The entire device interface is locked into single-task attention.
               </p>
 
               {/* Distraction-Free Controls */}
-              <div className={`flex items-center gap-6 mb-8 transition-all duration-750 ${
+              <div className={`flex items-center gap-6 mb-6 transition-all duration-750 ${
                 showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}>
                 {/* Toggle Mute */}
@@ -337,7 +346,7 @@ function AppContent() {
               {/* Exit Canopy */}
               <button
                 onClick={handleExitImmersive}
-                className={`font-display text-[10px] font-bold tracking-[0.2em] text-[#b9caca]/40 hover:text-brand-cyan uppercase transition-all duration-750 inline-block focus:outline-none border-b border-transparent hover:border-brand-cyan/20 pb-1 mt-4 cursor-pointer ${
+                className={`font-display text-[10px] font-bold tracking-[0.2em] text-[#b9caca]/40 hover:text-brand-cyan uppercase transition-all duration-750 inline-block focus:outline-none border-b border-transparent hover:border-brand-cyan/20 pb-1 mt-2 cursor-pointer ${
                   showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
               >
