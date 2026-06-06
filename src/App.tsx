@@ -73,7 +73,7 @@ function AppContent() {
 
   const handleEnterImmersive = () => {
     setImmersiveActive(true);
-    startTimer();
+    // Do NOT auto-start — let user set duration first, then press play
   };
 
   const handleExitImmersive = () => {

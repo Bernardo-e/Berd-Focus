@@ -202,7 +202,7 @@ export const TimerProvider = ({ children }: TimerProviderProps) => {
   };
 
   const setCustomMinutes = (mins: number) => {
-    if (state !== 'idle') return;
+    if (state === 'running') return; // can't change while actively running
     setSelectedMinutes(mins);
     setSecondsLeft(mins * 60);
 
