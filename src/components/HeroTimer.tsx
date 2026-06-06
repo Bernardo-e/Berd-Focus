@@ -75,7 +75,7 @@ export default function HeroTimer({ onSessionComplete, onEnterImmersive }: HeroT
   };
 
   // Circumference logic for timer radial circle
-  const radius = 120;
+  const radius = 135;
   const circumference = 2 * Math.PI * radius;
   const initialSeconds = selectedMinutes * 60;
   const progressPercent = initialSeconds > 0 ? (secondsLeft / initialSeconds) : 0;
@@ -89,8 +89,8 @@ export default function HeroTimer({ onSessionComplete, onEnterImmersive }: HeroT
       {/* Background ambient orbs and grids */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full ambient-orb-1 opacity-40 blur-[130px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full ambient-orb-2 opacity-30 blur-[150px]" />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full ambient-orb-1 opacity-45 blur-[130px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full ambient-orb-2 opacity-35 blur-[150px]" />
         
         {/* Crisp design-line details to mimic Apple/Linear cleanliness */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:32px_32px]" />
@@ -107,7 +107,7 @@ export default function HeroTimer({ onSessionComplete, onEnterImmersive }: HeroT
         >
           <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
           <span className="font-display text-[10px] font-bold tracking-[0.25em] text-brand-cyan uppercase">
-            Berd Focus v1.1
+            Berd Focus v1.2
           </span>
         </motion.div>
 
@@ -116,13 +116,13 @@ export default function HeroTimer({ onSessionComplete, onEnterImmersive }: HeroT
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-          className="mb-14"
+          className="mb-12"
         >
-          <h1 className="font-display font-bold text-4xl sm:text-6xl md:text-7xl text-white tracking-tight mb-4 select-none">
+          <h1 className="font-display font-extrabold text-4xl sm:text-6xl md:text-7xl text-white tracking-tight mb-4 select-none">
             Focus Deep. <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-violet">Achieve More.</span>
           </h1>
-          <p className="font-sans text-base sm:text-lg text-[#b9caca] max-w-xl mx-auto font-light leading-relaxed tracking-wide opacity-90">
-            A minimalist workspace engineered to suppress clutter and foster single-task flow states.
+          <p className="font-sans text-base sm:text-lg text-[#b9caca]/90 max-w-2xl mx-auto font-light leading-relaxed tracking-wide">
+            An elegant, high-fidelity productivity workspace designed to eliminate cognitive noise and guide you into deep focus states.
           </p>
         </motion.div>
 
@@ -137,16 +137,16 @@ export default function HeroTimer({ onSessionComplete, onEnterImmersive }: HeroT
           }}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="w-full max-w-lg glass-card rounded-3xl p-8 sm:p-10 mb-10 shadow-2xl relative border border-white/10"
+          className="w-full max-w-lg glass-card rounded-[32px] p-8 sm:p-10 mb-10 shadow-2xl relative border border-white/10"
         >
           {/* Subtle inside shine */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent rounded-3xl pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent rounded-[32px] pointer-events-none" />
 
           {/* Mode Tabs */}
           <div className="flex justify-between p-1 bg-black/30 rounded-xl border border-white/5 mb-8">
             <button
               onClick={() => handleModeChange('work')}
-              className={`flex-1 py-2 rounded-lg font-display text-[10px] font-bold tracking-widest uppercase transition-all duration-300 cursor-pointer ${
+              className={`flex-1 py-2.5 rounded-lg font-display text-[10px] font-bold tracking-widest uppercase transition-all duration-300 cursor-pointer ${
                 mode === 'work' ? 'bg-brand-cyan-muted/20 text-brand-cyan border border-brand-cyan/20' : 'text-[#b9caca]/60 hover:text-white'
               }`}
             >
@@ -154,7 +154,7 @@ export default function HeroTimer({ onSessionComplete, onEnterImmersive }: HeroT
             </button>
             <button
               onClick={() => handleModeChange('shortBreak')}
-              className={`flex-1 py-2 rounded-lg font-display text-[10px] font-bold tracking-widest uppercase transition-all duration-300 cursor-pointer ${
+              className={`flex-1 py-2.5 rounded-lg font-display text-[10px] font-bold tracking-widest uppercase transition-all duration-300 cursor-pointer ${
                 mode === 'shortBreak' ? 'bg-brand-violet-muted/20 text-brand-violet border border-brand-violet/20' : 'text-[#b9caca]/60 hover:text-white'
               }`}
             >
@@ -163,26 +163,26 @@ export default function HeroTimer({ onSessionComplete, onEnterImmersive }: HeroT
           </div>
 
           {/* Focus Timer Radial Wheel */}
-          <div className="relative w-64 h-64 mx-auto flex items-center justify-center mb-8">
+          <div className="relative w-72 h-72 sm:w-[310px] sm:h-[310px] mx-auto flex items-center justify-center mb-8">
             
             {/* SVG Progress Ring */}
-            <svg className="w-full h-full transform -rotate-90">
+            <svg className="w-full h-full transform -rotate-90 absolute inset-0" viewBox="0 0 300 300">
               {/* Outer Track Ring */}
               <circle
-                cx="128"
-                cy="128"
+                cx="150"
+                cy="150"
                 r={radius}
                 className="stroke-white/5"
-                strokeWidth="6"
+                strokeWidth="5"
                 fill="none"
               />
               {/* Animated Progress Ring */}
               <motion.circle
-                cx="128"
-                cy="128"
+                cx="150"
+                cy="150"
                 r={radius}
                 className={mode === 'work' ? 'stroke-brand-cyan' : 'stroke-brand-violet'}
-                strokeWidth="8"
+                strokeWidth="6.5"
                 fill="none"
                 strokeLinecap="round"
                 strokeDasharray={circumference}
@@ -191,21 +191,21 @@ export default function HeroTimer({ onSessionComplete, onEnterImmersive }: HeroT
                 transition={{ duration: 0.1, ease: 'linear' }}
                 style={{
                   filter: mode === 'work' 
-                    ? 'drop-shadow(0 0 10px rgba(0, 240, 248, 0.4))' 
-                    : 'drop-shadow(0 0 10px rgba(220, 184, 255, 0.4))'
+                    ? 'drop-shadow(0 0 12px rgba(0, 240, 248, 0.45))' 
+                    : 'drop-shadow(0 0 12px rgba(220, 184, 255, 0.45))'
                 }}
               />
             </svg>
 
             {/* Inner Clock Text */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="font-display font-light text-5xl sm:text-6xl text-white tracking-widest block select-none tabular-nums">
+              <span className="font-display font-light text-5xl sm:text-6.5xl text-white tracking-widest block select-none tabular-nums leading-none">
                 {formatTime(secondsLeft)}
               </span>
-              <span className={`font-display text-[9px] font-semibold tracking-[0.3em] uppercase mt-2 ${
-                mode === 'work' ? 'text-brand-cyan/80' : 'text-brand-violet/80'
+              <span className={`font-display text-[9px] font-bold tracking-[0.35em] uppercase mt-4.5 ${
+                mode === 'work' ? 'text-brand-cyan/90' : 'text-brand-violet/90'
               }`}>
-                {state === 'running' ? 'Focus Area' : state === 'paused' ? 'Paused' : 'Ready'}
+                {state === 'running' ? 'Focus Active' : state === 'paused' ? 'Paused' : 'Ready'}
               </span>
             </div>
           </div>

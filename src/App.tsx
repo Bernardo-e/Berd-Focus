@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Header from './components/Header';
 import HeroTimer from './components/HeroTimer';
 import FocusStorytelling from './components/FocusStorytelling';
 import TimerShowcase from './components/TimerShowcase';
 import PerformanceStats from './components/PerformanceStats';
 import DeepFocusShowcase from './components/DeepFocusShowcase';
+import AIFocusPlanner from './components/AIFocusPlanner';
 import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 import { playTactileSound } from './utils';
@@ -83,6 +84,45 @@ function AppContent() {
     setImmersiveActive(false);
   };
 
+  const [showImmersiveControls, setShowImmersiveControls] = useState(true);
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const handleMouseMove = () => {
+      if (!immersiveActive) return;
+      setShowImmersiveControls(true);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+      controlsTimeoutRef.current = setTimeout(() => {
+        if (state === 'running') {
+          setShowImmersiveControls(false);
+        }
+      }, 2500);
+    };
+
+    if (immersiveActive) {
+      window.addEventListener('mousemove', handleMouseMove);
+      controlsTimeoutRef.current = setTimeout(() => {
+        if (state === 'running') {
+          setShowImmersiveControls(false);
+        }
+      }, 2500);
+    } else {
+      setShowImmersiveControls(true);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+    };
+  }, [immersiveActive, state]);
+
   const handleScrollToSection = (sectionId: string) => {
     const el = document.getElementById(sectionId);
     if (el) {
@@ -128,6 +168,8 @@ function AppContent() {
               onEnterImmersive={handleEnterImmersive}
             />
 
+            {/* AI Focus Planner Section */}
+            <AIFocusPlanner />
 
             {/* Section 2: Why Focus Storytelling */}
             <FocusStorytelling />
@@ -161,25 +203,29 @@ function AppContent() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
-            className="fixed inset-0 z-50 bg-[#030407] flex flex-col items-center justify-center p-6 text-center select-none"
+            className="fixed inset-0 z-50 bg-[#020306] flex flex-col items-center justify-center p-6 text-center select-none"
           >
             {/* Floating Soft Ambient Light */}
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0">
               <motion.div 
                 animate={{ 
-                  scale: state === 'running' ? [1, 1.18, 1] : 1, 
-                  opacity: state === 'running' ? [0.15, 0.35, 0.15] : 0.25 
+                  scale: state === 'running' ? [1, 1.15, 1] : 1, 
+                  opacity: state === 'running' ? [0.12, 0.28, 0.12] : 0.2 
                 }}
-                transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-                className="w-[500px] h-[500px] rounded-full bg-brand-cyan/20 blur-[130px]"
+                transition={{ repeat: Infinity, duration: 8, ease: 'easeInOut' }}
+                className={`w-[600px] h-[600px] rounded-full blur-[140px] transition-colors duration-1000 ${
+                  mode === 'work' ? 'bg-brand-cyan/20' : 'bg-brand-violet/20'
+                }`}
               />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.01)_1px,transparent_1px)] [background-size:40px_40px]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:40px_40px]" />
             </div>
 
             {/* Immersive Contents */}
             <div className="relative z-10 flex flex-col items-center max-w-lg w-full">
               
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/5 rounded-full mb-10 backdrop-blur-md">
+              <div className={`inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/5 rounded-full mb-10 backdrop-blur-md transition-all duration-750 ${
+                showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}>
                 <Sparkles className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
                 <span className="font-display text-[9px] font-bold tracking-[0.3em] text-[#b9caca]/70 uppercase">
                   VOID CANOPY ACTIVE
@@ -187,61 +233,74 @@ function AppContent() {
               </div>
 
               {/* Giant countdown timer with SVG progress circle */}
-              <div className="relative w-80 h-80 sm:w-96 sm:h-96 md:w-[400px] md:h-[400px] rounded-full flex items-center justify-center mb-12">
-                <svg className="w-full h-full transform -rotate-90 absolute inset-0" viewBox="0 0 300 300">
-                  {/* Outer track */}
-                  <circle
-                    cx="150"
-                    cy="150"
-                    r={radius}
-                    className="stroke-white/5"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  {/* Animated Progress */}
-                  <motion.circle
-                    cx="150"
-                    cy="150"
-                    r={radius}
-                    className={mode === 'work' ? 'stroke-brand-cyan' : 'stroke-brand-violet'}
-                    strokeWidth="6"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
-                    animate={{ strokeDashoffset }}
-                    transition={{ duration: 0.1, ease: 'linear' }}
-                    style={{
-                      filter: mode === 'work' 
-                        ? 'drop-shadow(0 0 12px rgba(0, 240, 248, 0.35))' 
-                        : 'drop-shadow(0 0 12px rgba(220, 184, 255, 0.35))'
-                    }}
-                  />
-                </svg>
+              {(() => {
+                const immersiveRadius = 145;
+                const immersiveCircumference = 2 * Math.PI * immersiveRadius;
+                const immersiveStrokeDashoffset = immersiveCircumference - progressPercent * immersiveCircumference;
+                return (
+                  <div className="relative w-84 h-84 sm:w-[420px] sm:h-[420px] md:w-[460px] md:h-[460px] rounded-full flex items-center justify-center mb-10 transition-transform duration-500">
+                    <svg className="w-full h-full transform -rotate-90 absolute inset-0" viewBox="0 0 320 320">
+                      {/* Outer track */}
+                      <circle
+                        cx="160"
+                        cy="160"
+                        r={immersiveRadius}
+                        className="stroke-white/5"
+                        strokeWidth="3.5"
+                        fill="none"
+                      />
+                      {/* Animated Progress */}
+                      <motion.circle
+                        cx="160"
+                        cy="160"
+                        r={immersiveRadius}
+                        className={mode === 'work' ? 'stroke-brand-cyan' : 'stroke-brand-violet'}
+                        strokeWidth="5"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeDasharray={immersiveCircumference}
+                        strokeDashoffset={immersiveStrokeDashoffset}
+                        animate={{ strokeDashoffset: immersiveStrokeDashoffset }}
+                        transition={{ duration: 0.1, ease: 'linear' }}
+                        style={{
+                          filter: mode === 'work' 
+                            ? 'drop-shadow(0 0 14px rgba(0, 240, 248, 0.4))' 
+                            : 'drop-shadow(0 0 14px rgba(220, 184, 255, 0.4))'
+                        }}
+                      />
+                    </svg>
 
-                <div className="text-center z-10 px-6">
-                  <h2 className="font-display font-light text-6xl sm:text-7xl md:text-8xl text-white tracking-widest leading-none timer-glow select-none tabular-nums">
-                    {formatTime(secondsLeft)}
-                  </h2>
-                  <p className={`font-display text-[9px] tracking-[0.25em] uppercase mt-4 ${
-                    mode === 'work' ? 'text-brand-cyan/70' : 'text-brand-violet/70'
-                  }`}>
-                    {state === 'running' ? 'CONQUERING THE OBJECTIVE' : 'CANOPY PAUSED'}
-                  </p>
-                  {mode === 'work' && sessionNote && (
-                    <p className="font-sans text-[10px] text-[#b9caca]/40 truncate max-w-[220px] sm:max-w-[280px] mt-2 italic">
-                      "{sessionNote}"
-                    </p>
-                  )}
-                </div>
-              </div>
+                    <div className="text-center z-10 px-6">
+                      <h2 className="font-display font-light text-6xl sm:text-7.5xl md:text-8.5xl text-white tracking-widest leading-none timer-glow select-none tabular-nums">
+                        {formatTime(secondsLeft)}
+                      </h2>
+                      <p className={`font-display text-[9px] tracking-[0.3em] uppercase mt-5 transition-all duration-750 ${
+                        mode === 'work' ? 'text-brand-cyan/85' : 'text-brand-violet/85'
+                      } ${showImmersiveControls ? 'opacity-100' : 'opacity-30'}`}>
+                        {state === 'running' ? 'CONQUERING THE OBJECTIVE' : 'CANOPY PAUSED'}
+                      </p>
+                      {mode === 'work' && sessionNote && (
+                        <p className={`font-sans text-[10px] text-[#b9caca]/55 truncate max-w-[220px] sm:max-w-[280px] mt-3 italic transition-all duration-750 ${
+                          showImmersiveControls ? 'opacity-100' : 'opacity-20'
+                        }`}>
+                          "{sessionNote}"
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
 
-              <p className="font-sans text-sm sm:text-base text-[#b9caca]/60 max-w-sm mb-12 font-light leading-relaxed">
+              <p className={`font-sans text-xs sm:text-sm text-[#b9caca]/55 max-w-sm mb-10 font-light leading-relaxed transition-all duration-750 ${
+                showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}>
                 Quiet your thoughts. The entire device interface is locked into single-task attention.
               </p>
 
               {/* Distraction-Free Controls */}
-              <div className="flex items-center gap-6 mb-8">
+              <div className={`flex items-center gap-6 mb-8 transition-all duration-750 ${
+                showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}>
                 {/* Toggle Mute */}
                 <button
                   onClick={toggleMute}
@@ -278,7 +337,9 @@ function AppContent() {
               {/* Exit Canopy */}
               <button
                 onClick={handleExitImmersive}
-                className="font-display text-[10px] font-bold tracking-[0.2em] text-[#b9caca]/40 hover:text-brand-cyan uppercase transition-colors inline-block focus:outline-none border-b border-transparent hover:border-brand-cyan/20 pb-1 mt-4 cursor-pointer"
+                className={`font-display text-[10px] font-bold tracking-[0.2em] text-[#b9caca]/40 hover:text-brand-cyan uppercase transition-all duration-750 inline-block focus:outline-none border-b border-transparent hover:border-brand-cyan/20 pb-1 mt-4 cursor-pointer ${
+                  showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
               >
                 Exit Void (ESC)
               </button>

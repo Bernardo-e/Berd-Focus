@@ -109,7 +109,7 @@ export default function PerformanceStats() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8 text-left">
           
           {/* Stats Box 1: Focus Hours (Cumulative and Today) */}
-          <div className="glass-card rounded-[24px] p-8 hover:shadow-[0_0_50px_rgba(0,240,248,0.06)] transition-all duration-500 relative group border border-white/10 flex flex-col justify-between min-h-[220px]">
+          <div className="glass-card rounded-3xl p-8 hover:shadow-[0_0_50px_rgba(0,240,248,0.08)] transition-all duration-500 relative group border border-white/10 flex flex-col justify-between min-h-[220px]">
             <div className="flex justify-between items-start mb-6">
               <div className="w-10 h-10 rounded-xl bg-brand-surface-light border border-white/5 flex items-center justify-center">
                 <Clock className="w-5 h-5 text-brand-cyan" />
@@ -119,17 +119,17 @@ export default function PerformanceStats() {
               </span>
             </div>
             <div>
-              <span className="font-display font-light text-5xl sm:text-6xl text-white block tracking-widest tabular-nums font-bold">
+              <span className="font-display font-bold text-5xl sm:text-6xl text-white block tracking-widest tabular-nums leading-none">
                 {stats.focusHours}h
               </span>
-              <span className="font-display text-[10px] font-semibold text-brand-cyan/80 tracking-widest uppercase mt-2 block">
+              <span className="font-display text-[10px] font-semibold text-brand-cyan/85 tracking-widest uppercase mt-3 block">
                 Total Focus ({todayHours}h completed today)
               </span>
             </div>
           </div>
 
           {/* Stats Box 2: Streaks (Current and Longest) */}
-          <div className="glass-card rounded-[24px] p-8 hover:shadow-[0_0_50px_rgba(220,184,255,0.06)] transition-all duration-500 relative group border border-white/10 flex flex-col justify-between min-h-[220px]">
+          <div className="glass-card rounded-3xl p-8 hover:shadow-[0_0_50px_rgba(220,184,255,0.08)] transition-all duration-500 relative group border border-white/10 flex flex-col justify-between min-h-[220px]">
             <div className="flex justify-between items-start mb-6">
               <div className="w-10 h-10 rounded-xl bg-brand-surface-light border border-white/5 flex items-center justify-center">
                 <Zap className="w-5 h-5 text-brand-violet" />
@@ -139,17 +139,17 @@ export default function PerformanceStats() {
               </span>
             </div>
             <div>
-              <span className="font-display font-light text-5xl sm:text-6xl text-white block tracking-widest tabular-nums font-bold">
+              <span className="font-display font-bold text-5xl sm:text-6xl text-white block tracking-widest tabular-nums leading-none">
                 {stats.currentStreak}d
               </span>
-              <span className="font-display text-[10px] font-semibold text-brand-violet/80 tracking-widest uppercase mt-2 block">
+              <span className="font-display text-[10px] font-semibold text-brand-violet/85 tracking-widest uppercase mt-3 block">
                 Current Streak (Longest: {stats.longestStreak}d)
               </span>
             </div>
           </div>
 
           {/* Stats Box 3: Daily Goal progress & Target Calibration */}
-          <div className="glass-card rounded-[24px] p-8 hover:shadow-[0_0_50px_rgba(0,240,248,0.06)] transition-all duration-500 relative group border border-white/10 flex flex-col justify-between min-h-[220px]">
+          <div className="glass-card rounded-3xl p-8 hover:shadow-[0_0_50px_rgba(0,240,248,0.08)] transition-all duration-500 relative group border border-white/10 flex flex-col justify-between min-h-[220px]">
             <div className="flex justify-between items-start mb-4">
               <div className="w-10 h-10 rounded-xl bg-brand-surface-light border border-white/5 flex items-center justify-center">
                 <Target className="w-5 h-5 text-brand-cyan" />
@@ -160,25 +160,25 @@ export default function PerformanceStats() {
             </div>
             <div>
               <div className="flex justify-between items-end">
-                <span className="font-display font-light text-4xl sm:text-5xl text-white block tracking-widest tabular-nums font-bold">
+                <span className="font-display font-bold text-4xl sm:text-5xl text-white block tracking-widest tabular-nums leading-none">
                   {todaySessionsCount}/{stats.dailyGoal}
                 </span>
                 {todaySessionsCount >= stats.dailyGoal ? (
-                  <span className="text-[10px] text-green-400 font-display font-bold uppercase tracking-wider mb-2 animate-bounce">
-                    🎉 Achieved!
+                  <span className="text-[10px] text-green-400 font-display font-bold uppercase tracking-wider mb-1 animate-bounce">
+                    🎉 Achieved
                   </span>
                 ) : (
-                  <span className="text-[10px] text-[#b9caca]/40 font-display font-bold uppercase tracking-wider mb-2">
+                  <span className="text-[10px] text-[#b9caca]/40 font-display font-bold uppercase tracking-wider mb-1">
                     {goalProgressPct}% Complete
                   </span>
                 )}
               </div>
 
               {/* Goal progress bar */}
-              <div className="w-full bg-white/5 rounded-full h-1 mt-2 overflow-hidden border border-white/5">
+              <div className="w-full bg-white/5 rounded-full h-1.5 mt-2.5 overflow-hidden border border-white/5">
                 <div 
                   className={`h-full transition-all duration-500 ${
-                    todaySessionsCount >= stats.dailyGoal ? 'bg-green-400' : 'bg-brand-cyan'
+                    todaySessionsCount >= stats.dailyGoal ? 'bg-green-400 shadow-[0_0_8px_#4ade80]' : 'bg-brand-cyan shadow-[0_0_8px_#00f0f8]'
                   }`}
                   style={{ width: `${goalProgressPct}%` }}
                 />
@@ -213,7 +213,7 @@ export default function PerformanceStats() {
         </div>
 
         {/* Weekly Summary Chart Frame */}
-        <div className="max-w-5xl mx-auto glass-card rounded-[24px] p-8 border border-white/10 mb-8 text-left">
+        <div className="max-w-5xl mx-auto glass-card rounded-3xl p-8 border border-white/10 mb-8 text-left">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 pb-6 border-b border-white/5">
             <div className="flex items-center gap-3">
               <BarChart2 className="w-5 h-5 text-brand-cyan" />
@@ -270,19 +270,19 @@ export default function PerformanceStats() {
                   </AnimatePresence>
 
                   {/* The bar element */}
-                  <div className="w-full relative rounded-t-lg overflow-hidden transition-all duration-300" style={{ height: heightPct }}>
+                  <div className="w-full relative rounded-t-xl overflow-hidden transition-all duration-300" style={{ height: heightPct }}>
                     {/* Glowing highlight layer */}
                     <div 
-                      className={`absolute inset-0 transition-opacity duration-300 ${
-                        isHovered ? 'bg-[#00f0f8]/30' : 'bg-brand-cyan-muted/15'
+                      className={`absolute inset-0 transition-opacity duration-300 bg-gradient-to-t from-brand-cyan/5 via-brand-cyan/15 to-brand-cyan/35 ${
+                        isHovered ? 'opacity-100' : 'opacity-60'
                       }`} 
                     />
-                    <div className="absolute inset-x-0 top-0 h-1 bg-brand-cyan focus-glow-cyan" />
+                    <div className="absolute inset-x-0 top-0 h-1 bg-brand-cyan shadow-[0_0_10px_rgba(0,240,248,0.5)]" />
                   </div>
 
                   {/* Day label */}
                   <span className={`text-[10px] font-display font-bold tracking-widest uppercase mt-4 block transition-colors ${
-                    isHovered ? 'text-brand-cyan font-bold' : 'text-[#b9caca]/40'
+                    isHovered ? 'text-brand-cyan font-bold' : 'text-[#b9caca]/45'
                   }`}>
                     {data.day}
                   </span>
@@ -293,7 +293,7 @@ export default function PerformanceStats() {
         </div>
 
         {/* Session History Section */}
-        <div className="max-w-5xl mx-auto glass-card rounded-[24px] p-8 border border-white/10 text-left">
+        <div className="max-w-5xl mx-auto glass-card rounded-3xl p-8 border border-white/10 text-left">
           <div className="flex items-center justify-between pb-6 border-b border-white/5 mb-6">
             <div className="flex items-center gap-3">
               <List className="w-5 h-5 text-brand-violet" />
@@ -321,7 +321,7 @@ export default function PerformanceStats() {
               <p className="font-sans text-sm font-light">Your Focus Log is empty. Seed some sessions to get started!</p>
             </div>
           ) : (
-            <div className="space-y-4 max-h-[360px] overflow-y-auto pr-2 no-scrollbar">
+            <div className="space-y-3.5 max-h-[360px] overflow-y-auto pr-2 no-scrollbar">
               {sessions.slice(0, 8).map((session, idx) => (
                 <div 
                   key={session.id || idx}
@@ -371,13 +371,13 @@ export default function PerformanceStats() {
         </div>
 
         {/* Motivational Insight card */}
-        <div className="max-w-5xl mx-auto bg-brand-cyan-muted/5 border border-brand-cyan/25 mt-10 rounded-2xl p-6 flex items-start gap-4 text-left">
+        <div className="max-w-5xl mx-auto bg-brand-cyan-muted/5 border-l-4 border-l-brand-cyan border-y border-r border-white/10 mt-10 rounded-2xl p-6 flex items-start gap-4 text-left shadow-lg">
           <Award className="w-6 h-6 text-brand-cyan shrink-0 animate-pulse mt-0.5" />
           <div>
             <h4 className="font-display font-bold text-sm text-brand-cyan tracking-wider uppercase mb-1">
               Deep work insight of the week
             </h4>
-            <p className="font-sans text-xs text-[#b9caca]/80 leading-relaxed font-light">
+            <p className="font-sans text-xs text-[#b9caca]/80 leading-relaxed font-light font-sans">
               Your focus cycles are stable and persisting. Aim to hit your daily goal of {stats.dailyGoal} focus sprints. Research indicates that maintaining a streak of at least 5 consecutive days of deliberate practice builds strong cognitive consolidation and neuroplasticity. Keep going!
             </p>
           </div>
