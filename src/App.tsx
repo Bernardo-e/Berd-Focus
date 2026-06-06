@@ -5,7 +5,6 @@ import FocusStorytelling from './components/FocusStorytelling';
 import TimerShowcase from './components/TimerShowcase';
 import PerformanceStats from './components/PerformanceStats';
 import DeepFocusShowcase from './components/DeepFocusShowcase';
-import AIFocusPlanner from './components/AIFocusPlanner';
 import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 import { playTactileSound } from './utils';
@@ -129,8 +128,6 @@ function AppContent() {
               onEnterImmersive={handleEnterImmersive}
             />
 
-            {/* AI Focus Planner Section */}
-            <AIFocusPlanner />
 
             {/* Section 2: Why Focus Storytelling */}
             <FocusStorytelling />
