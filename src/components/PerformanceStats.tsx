@@ -318,7 +318,7 @@ export default function PerformanceStats() {
           {sessions.length === 0 ? (
             <div className="py-12 text-center text-[#b9caca]/30 flex flex-col items-center justify-center gap-3">
               <Calendar className="w-8 h-8 opacity-40 animate-pulse" />
-              <p className="font-sans text-sm font-light">Your Focus Log is empty. Seed some sessions to get started!</p>
+              <p className="font-sans text-sm font-light">No sessions yet. Complete a focus timer to see your history here.</p>
             </div>
           ) : (
             <div className="space-y-3.5 max-h-[360px] overflow-y-auto pr-2 no-scrollbar">
@@ -338,8 +338,8 @@ export default function PerformanceStats() {
                       </span>
                     </div>
                     <div className="min-w-0">
-                      <p className="font-sans text-xs sm:text-sm text-white font-medium leading-tight truncate">
-                        {session.note}
+                      <p className="font-sans text-xs sm:text-sm text-white font-medium leading-tight">
+                        {session.mode === 'work' ? 'Focus' : 'Break'}
                       </p>
                       <p className="text-[10px] text-[#b9caca]/40 font-sans mt-0.5">
                         {formatSessionTime(session.timestamp)}

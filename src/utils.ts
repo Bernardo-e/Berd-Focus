@@ -191,67 +191,25 @@ export const getWeeklyData = (sessions: FocusSession[]): WeeklyData[] => {
   });
 };
 
-export const seedSessionsIfEmpty = () => {
+// Clears any old seeded/fake sessions from localStorage on first run after this change
+export const clearFakeSeedData = () => {
   try {
-    const rawSessions = localStorage.getItem(HISTORY_KEY);
-    if (rawSessions) return;
-
-    const seededSessions: FocusSession[] = [];
-    const now = new Date();
-    const taskNotes = [
-      "Refactored navigation router",
-      "Configured Tailwind dynamic themes",
-      "Designed Pomodoro dashboard",
-      "Implemented Web Audio triggers",
-      "Resolved state synchronization",
-      "Added user settings persistence",
-      "Integrated Gemini API schema",
-      "Tested fullscreen API transitions"
-    ];
-
-    for (let i = 6; i >= 0; i--) {
-      const date = new Date(now);
-      date.setDate(now.getDate() - i);
-      const numSessions = Math.floor(Math.random() * 3) + 1; // 1 to 3 sessions
-
-      for (let j = 0; j < numSessions; j++) {
-        const sessionDate = new Date(date);
-        sessionDate.setHours(9 + j * 3, Math.floor(Math.random() * 60), 0, 0);
-
-        seededSessions.push({
-          id: `seed-focus-${i}-${j}`,
-          duration: 25,
-          timestamp: sessionDate.toISOString(),
-          note: taskNotes[Math.floor(Math.random() * taskNotes.length)],
-          mode: 'work',
-          completed: true
-        });
-
-        if (Math.random() > 0.4) {
-          const breakDate = new Date(sessionDate);
-          breakDate.setMinutes(sessionDate.getMinutes() + 25);
-          seededSessions.push({
-            id: `seed-break-${i}-${j}`,
-            duration: 5,
-            timestamp: breakDate.toISOString(),
-            note: 'Recuperation Break',
-            mode: 'shortBreak',
-            completed: true
-          });
-        }
-      }
+    const raw = localStorage.getItem(HISTORY_KEY);
+    if (!raw) return;
+    const sessions: FocusSession[] = JSON.parse(raw);
+    // Remove any sessions that have IDs starting with 'seed-' (old fake data)
+    const real = sessions.filter(s => !String(s.id).startsWith('seed-'));
+    if (real.length !== sessions.length) {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(real));
     }
-
-    seededSessions.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(seededSessions));
   } catch (e) {
-    console.error("Failed to seed database:", e);
+    // ignore
   }
 };
 
 export const getStoredSessions = (): FocusSession[] => {
   try {
-    seedSessionsIfEmpty();
+    clearFakeSeedData();
     const raw = localStorage.getItem(HISTORY_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch (e) {
@@ -261,7 +219,6 @@ export const getStoredSessions = (): FocusSession[] => {
 
 export const getStoredStats = (): Stats => {
   try {
-    seedSessionsIfEmpty();
     const sessions = getStoredSessions();
     const completedWorkSessions = sessions.filter(s => s.completed && s.mode === 'work');
     const totalFocusMinutes = completedWorkSessions.reduce((acc, s) => acc + s.duration, 0);
