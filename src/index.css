@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Geist", sans-serif;
+  
+  --color-brand-bg: #090b11;
+  --color-brand-surface: #0f131f;
+  --color-brand-surface-light: #161c2c;
+  --color-brand-surface-high: #1e263d;
+  --color-brand-cyan: #00f0f8;
+  --color-brand-cyan-muted: rgba(0, 240, 248, 0.15);
+  --color-brand-violet: #dcb8ff;
+  --color-brand-violet-muted: rgba(220, 184, 255, 0.15);
+}
+
+@layer base {
+  body {
+    background-color: #090b11;
+    color: #dfe2f3;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Glassmorphism glass card */
+.glass-card {
+  background: rgba(15, 19, 31, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Interactive focus glow */
+.focus-glow-cyan {
+  box-shadow: 0 0 40px rgba(0, 240, 248, 0.15);
+}
+
+.focus-glow-violet {
+  box-shadow: 0 0 40px rgba(220, 184, 255, 0.15);
+}
+
+/* Custom fade-in and slide animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.3;
+    filter: blur(80px);
+  }
+  50% {
+    opacity: 0.6;
+    filter: blur(120px);
+  }
+}
+
+.ambient-orb-1 {
+  background: radial-gradient(circle, rgba(0, 240, 248, 0.08) 0%, rgba(0, 240, 248, 0) 70%);
+  animation: pulseGlow 10s ease-in-out infinite;
+}
+
+.ambient-orb-2 {
+  background: radial-gradient(circle, rgba(220, 184, 255, 0.08) 0%, rgba(220, 184, 255, 0) 70%);
+  animation: pulseGlow 8s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090b11;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Utility to disable scrollbar of iframe if necessary */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+

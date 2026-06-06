@@ -1,0 +1,6 @@
+{
+  "name": "Berd Focus",
+  "description": "A premium productivity and deep focus application designed to help you accomplish more with cinematic ambient environments and statistics tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
