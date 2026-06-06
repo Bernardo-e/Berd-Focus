@@ -24,6 +24,7 @@ function AppContent() {
     pauseTimer,
     resetTimer,
     toggleMute,
+    setCustomMinutes,
     mode,
     sessionNote,
   } = useTimer();
@@ -283,16 +284,45 @@ function AppContent() {
                       <h2 className="font-display font-light text-6xl sm:text-7xl md:text-8xl text-white tracking-widest leading-none timer-glow select-none tabular-nums">
                         {formatTime(secondsLeft)}
                       </h2>
-                      <p className={`font-display text-[9px] tracking-[0.3em] uppercase mt-5 transition-all duration-750 ${
-                        mode === 'work' ? 'text-brand-cyan/85' : 'text-brand-violet/85'
-                      } ${showImmersiveControls ? 'opacity-100' : 'opacity-30'}`}>
-                        {state === 'running' ? 'CONQUERING THE OBJECTIVE' : 'CANOPY PAUSED'}
-                      </p>
-                      {mode === 'work' && sessionNote && (
-                        <p className={`font-sans text-[10px] text-[#b9caca]/55 truncate max-w-[220px] sm:max-w-[280px] mt-3 italic transition-all duration-750 ${
-                          showImmersiveControls ? 'opacity-100' : 'opacity-20'
+
+                      {/* Minute editor — only when idle or paused */}
+                      {state !== 'running' && (
+                        <div className={`flex items-center justify-center gap-4 mt-5 transition-all duration-500 ${
+                          showImmersiveControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
                         }`}>
-                          "{sessionNote}"
+                          <button
+                            onClick={() => {
+                              const next = Math.max(1, selectedMinutes - 1);
+                              setCustomMinutes(next);
+                              if (!isMuted) playTactileSound(800, 'sine', 0.03);
+                            }}
+                            className="w-8 h-8 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all text-sm font-bold cursor-pointer flex items-center justify-center"
+                          >
+                            −
+                          </button>
+                          <span className={`font-display text-sm font-semibold tracking-widest ${
+                            mode === 'work' ? 'text-brand-cyan' : 'text-brand-violet'
+                          }`}>
+                            {selectedMinutes} min
+                          </span>
+                          <button
+                            onClick={() => {
+                              const next = Math.min(120, selectedMinutes + 1);
+                              setCustomMinutes(next);
+                              if (!isMuted) playTactileSound(900, 'sine', 0.03);
+                            }}
+                            className="w-8 h-8 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all text-sm font-bold cursor-pointer flex items-center justify-center"
+                          >
+                            +
+                          </button>
+                        </div>
+                      )}
+
+                      {state === 'running' && (
+                        <p className={`font-display text-[9px] tracking-[0.3em] uppercase mt-5 transition-all duration-750 ${
+                          mode === 'work' ? 'text-brand-cyan/85' : 'text-brand-violet/85'
+                        } ${showImmersiveControls ? 'opacity-100' : 'opacity-30'}`}>
+                          {mode === 'work' ? 'FOCUSING' : 'ON BREAK'}
                         </p>
                       )}
                     </div>
